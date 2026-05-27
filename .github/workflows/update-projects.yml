@@ -1,0 +1,117 @@
+name: Update Projects
+
+on:
+  schedule:
+    - cron: "0 0 * * *"   # runs daily at midnight UTC
+  workflow_dispatch:        # allows manual trigger from GitHub Actions tab
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout profile repo
+        uses: actions/checkout@v4
+
+      - name: Fetch repos and rebuild README projects section
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+
+            // ── 1. Collect all repos for Sensui-moksha (paginated) ──────────────
+            const fetchAllRepos = async (username) => {
+              const repos = [];
+              let page = 1;
+              while (true) {
+                const { data } = await github.rest.repos.listForUser({
+                  username,
+                  sort: 'updated',
+                  direction: 'desc',
+                  per_page: 100,
+                  page,
+                  type: 'owner',   // only repos actually owned by this account
+                });
+                repos.push(...data);
+                if (data.length < 100) break;
+                page++;
+              }
+              return repos;
+            };
+
+            let allRepos = await fetchAllRepos('Sensui-moksha');
+
+            // ── 2. Filter: no forks, no profile repo itself ──────────────────────
+            const projects = allRepos.filter(r =>
+              !r.fork &&
+              r.name !== 'Sensui-moksha'      // exclude the profile repo
+            );
+
+            if (projects.length === 0) {
+              core.warning('No repos found — skipping README update to avoid wiping content.');
+              return;
+            }
+
+            // ── 3. Build the markdown table ──────────────────────────────────────
+            const escape = (str) => str.replace(/\|/g, '\\|');
+
+            const tableHeader = [
+              '| # | 📁 Project | 📝 Description | 🔧 Stack | ⭐ Stars |',
+              '|:---:|:---|:---|:---:|:---:|',
+            ].join('\n');
+
+            const tableRows = projects.map((r, i) => {
+              const num  = i + 1;
+              const name = escape(r.name);
+              const url  = r.html_url;
+              const desc = escape((r.description || '—').slice(0, 120));
+              const lang = r.language || 'N/A';
+              const star = `![Stars](https://img.shields.io/github/stars/${r.full_name}?style=flat-square&color=gold&label=)`;
+              return `| ${num} | [${name}](${url}) | ${desc} | \`${lang}\` | ${star} |`;
+            }).join('\n');
+
+            const table = `${tableHeader}\n${tableRows}`;
+
+            const updatedAt = new Date().toUTCString();
+            const newSection =
+              `<!-- PROJECTS:START -->\n` +
+              `> 🤖 _Last synced: ${updatedAt}_\n\n` +
+              `### 🏗️ My Projects\n\n` +
+              `<div align="center">\n\n` +
+              `${table}\n\n` +
+              `</div>\n\n` +
+              `<!-- PROJECTS:END -->`;
+
+            // ── 4. Splice into README between the marker comments ────────────────
+            let readme = fs.readFileSync('README.md', 'utf8');
+
+            const startMarker = '<!-- PROJECTS:START -->';
+            const endMarker   = '<!-- PROJECTS:END -->';
+            const startIdx    = readme.indexOf(startMarker);
+            const endIdx      = readme.indexOf(endMarker);
+
+            if (startIdx === -1 || endIdx === -1) {
+              core.setFailed('Could not find PROJECTS:START / PROJECTS:END markers in README.md');
+              return;
+            }
+
+            // Replace everything between (and including) the markers
+            readme =
+              readme.slice(0, startIdx) +
+              newSection +
+              readme.slice(endIdx + endMarker.length);
+
+            fs.writeFileSync('README.md', readme);
+            core.info(`✅  Updated README with ${projects.length} projects.`);
+
+      - name: Commit and push if README changed
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name  "github-actions[bot]"
+          git add README.md
+          # Only commit when there is an actual diff
+          git diff --staged --quiet && echo "No changes to commit." || \
+            git commit -m "chore: sync projects table [skip ci]" && git push
