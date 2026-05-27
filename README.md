@@ -26,12 +26,12 @@
 
 ```typescript
 const mokshyagna = {
-  name:     "Mokshyagna Yadav",
+  name:"Mokshyagna Yadav",
   location: "Andhra Pradesh, India 🇮🇳",
-  education: "B.Tech CSE @ MIC College of Technology",
-  roles:    ["Full-Stack Developer", "AI Learner", "Linux Enthusiast"],
+  education:"B.Tech CSE @ MIC College of Technology",
+  roles:["Full-Stack Developer", "AI Learner", "Linux Enthusiast"],
   currentlyLearning: ["AI/ML", "Web3", "System Design"],
-  askMeAbout:        ["React", "Node.js", "Linux", "Blockchain"],
+  askMeAbout:["React", "Node.js", "Linux", "Blockchain"],
   funFact: "I debug with console.log and I'm not ashamed 😄",
 };
 ```
