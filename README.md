@@ -87,7 +87,7 @@ const mokshyagna = {
 ## 🚀 Projects
 
 <!-- PROJECTS:START -->
-> 🤖 _Last synced: Thu, 10 Sep 2026 02:17:59 GMT_
+> 🤖 _Last synced: Fri, 11 Sep 2026 02:13:34 GMT_
 
 ### 🏗️ My Projects
 
@@ -95,9 +95,9 @@ const mokshyagna = {
 
 | # | 📁 Project | 📝 Description | 🔧 Stack | ⭐ Stars |
 |:---:|:---|:---|:---:|:---:|
-| 1 | [Sensui-moksha.github.io](https://github.com/Sensui-moksha/Sensui-moksha.github.io) | 🚀 Personal portfolio website of Mokshyagna Yadav – a passionate full-stack developer and Linux enthusiast. Built with H | `TypeScript` | ![Stars](https://img.shields.io/github/stars/Sensui-moksha/Sensui-moksha.github.io?style=flat-square&color=gold&label=) |
-| 2 | [Intellica](https://github.com/Sensui-moksha/Intellica) | Intellica is an institutional-grade Faculty Appraisal & Research Performance Management portal. Features multi-tier appr | `JavaScript` | ![Stars](https://img.shields.io/github/stars/Sensui-moksha/Intellica?style=flat-square&color=gold&label=) |
-| 3 | [EVENT--HUB-College-Version](https://github.com/Sensui-moksha/EVENT--HUB-College-Version) | — | `TypeScript` | ![Stars](https://img.shields.io/github/stars/Sensui-moksha/EVENT--HUB-College-Version?style=flat-square&color=gold&label=) |
+| 1 | [EVENT--HUB-College-Version](https://github.com/Sensui-moksha/EVENT--HUB-College-Version) | — | `TypeScript` | ![Stars](https://img.shields.io/github/stars/Sensui-moksha/EVENT--HUB-College-Version?style=flat-square&color=gold&label=) |
+| 2 | [Sensui-moksha.github.io](https://github.com/Sensui-moksha/Sensui-moksha.github.io) | 🚀 Personal portfolio website of Mokshyagna Yadav – a passionate full-stack developer and Linux enthusiast. Built with H | `TypeScript` | ![Stars](https://img.shields.io/github/stars/Sensui-moksha/Sensui-moksha.github.io?style=flat-square&color=gold&label=) |
+| 3 | [Intellica](https://github.com/Sensui-moksha/Intellica) | Intellica is an institutional-grade Faculty Appraisal & Research Performance Management portal. Features multi-tier appr | `JavaScript` | ![Stars](https://img.shields.io/github/stars/Sensui-moksha/Intellica?style=flat-square&color=gold&label=) |
 | 4 | [campus-check-in-Attendance-Managment-System](https://github.com/Sensui-moksha/campus-check-in-Attendance-Managment-System) | A modern full-stack attendance management system for educational institutions. Features role-based access (Admin, Princi | `TypeScript` | ![Stars](https://img.shields.io/github/stars/Sensui-moksha/campus-check-in-Attendance-Managment-System?style=flat-square&color=gold&label=) |
 | 5 | [EventHub---College-Event-Management-System](https://github.com/Sensui-moksha/EventHub---College-Event-Management-System) | EventHub is a modern full-stack college event management system built with React 18, TypeScript, Node.js, and MongoDB. F | `TypeScript` | ![Stars](https://img.shields.io/github/stars/Sensui-moksha/EventHub---College-Event-Management-System?style=flat-square&color=gold&label=) |
 | 6 | [Weather-Forecast](https://github.com/Sensui-moksha/Weather-Forecast) | 🌦️ Weather Forecast Web AppA simple responsive weather app that displays real-time weather data for any city using a pu | `CSS` | ![Stars](https://img.shields.io/github/stars/Sensui-moksha/Weather-Forecast?style=flat-square&color=gold&label=) |
