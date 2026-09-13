@@ -1,0 +1,230 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 340" width="100%" height="100%">
+  <defs>
+    <!-- Background Deep Space Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#04060E"/>
+      <stop offset="50%" stop-color="#080C1A"/>
+      <stop offset="100%" stop-color="#03050A"/>
+    </linearGradient>
+
+    <!-- Neon Dual Gradient (Crimson to Electric Blue) -->
+    <linearGradient id="neonDual" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF1E56">
+        <animate attributeName="stop-color" values="#FF1E56;#FF0055;#FF3366;#FF1E56" dur="6s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" stop-color="#8B5CF6">
+        <animate attributeName="stop-color" values="#8B5CF6;#6366F1;#A855F7;#8B5CF6" dur="6s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#0066FF">
+        <animate attributeName="stop-color" values="#0066FF;#00D2FC;#0051FF;#0066FF" dur="6s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+
+    <linearGradient id="blueGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0066FF" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#00D2FC" stop-opacity="0.1"/>
+    </linearGradient>
+
+    <linearGradient id="redGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF1E56" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#FF0055" stop-opacity="0.1"/>
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="glowRed" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <filter id="glowBlue" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <filter id="glowSubtle" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <!-- Cyber Grid Pattern -->
+    <pattern id="cyberGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#131B32" stroke-width="0.75" opacity="0.45"/>
+    </pattern>
+  </defs>
+
+  <style>
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.75; filter: drop-shadow(0 0 12px rgba(255, 30, 86, 0.7)); }
+      50% { opacity: 1; filter: drop-shadow(0 0 26px rgba(0, 102, 255, 0.95)); }
+    }
+    @keyframes laserRun {
+      0% { stroke-dashoffset: 1800; }
+      100% { stroke-dashoffset: 0; }
+    }
+    @keyframes laserRunReverse {
+      0% { stroke-dashoffset: -1800; }
+      100% { stroke-dashoffset: 0; }
+    }
+    @keyframes scanline {
+      0% { transform: translateY(-50px); opacity: 0; }
+      20% { opacity: 0.4; }
+      80% { opacity: 0.4; }
+      100% { transform: translateY(350px); opacity: 0; }
+    }
+    @keyframes floatStar {
+      0%, 100% { transform: translateY(0px) scale(1); opacity: 0.35; }
+      50% { transform: translateY(-6px) scale(1.4); opacity: 1; }
+    }
+    @keyframes badgePulse {
+      0%, 100% { stroke: #FF1E56; }
+      50% { stroke: #00D2FC; }
+    }
+    @keyframes eq1 { 0%, 100% { height: 6px; y: 22px; } 50% { height: 26px; y: 2px; } }
+    @keyframes eq2 { 0%, 100% { height: 18px; y: 10px; } 50% { height: 8px; y: 20px; } }
+    @keyframes eq3 { 0%, 100% { height: 12px; y: 16px; } 50% { height: 28px; y: 0px; } }
+    @keyframes eq4 { 0%, 100% { height: 24px; y: 4px; } 50% { height: 10px; y: 18px; } }
+    @keyframes rotateReticle { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .grid-bg { opacity: 0.65; }
+    .laser-trace {
+      stroke-dasharray: 240, 700;
+      animation: laserRun 7s linear infinite;
+    }
+    .laser-trace-rev {
+      stroke-dasharray: 240, 700;
+      animation: laserRunReverse 7s linear infinite;
+    }
+    .scan-bar { animation: scanline 5.5s ease-in-out infinite; }
+    .star-1 { animation: floatStar 3.5s ease-in-out infinite; }
+    .star-2 { animation: floatStar 4.8s ease-in-out infinite 1s; }
+    .star-3 { animation: floatStar 3.2s ease-in-out infinite 2s; }
+    .star-4 { animation: floatStar 5.2s ease-in-out infinite 0.5s; }
+    .eq-bar-1 { animation: eq1 1.1s ease-in-out infinite; }
+    .eq-bar-2 { animation: eq2 0.9s ease-in-out infinite 0.2s; }
+    .eq-bar-3 { animation: eq3 1.4s ease-in-out infinite 0.4s; }
+    .eq-bar-4 { animation: eq4 0.8s ease-in-out infinite 0.1s; }
+    .title-glow {
+      animation: pulseGlow 4s ease-in-out infinite;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-weight: 900;
+      letter-spacing: 6px;
+    }
+    .sub-text {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Courier New", monospace;
+      font-weight: 700;
+      letter-spacing: 3px;
+    }
+    .tag-box {
+      animation: badgePulse 5s ease-in-out infinite;
+    }
+  </style>
+
+  <!-- Background Base -->
+  <rect width="1000" height="340" rx="16" fill="url(#bgGrad)" />
+
+  <!-- Cyber Grid -->
+  <rect width="1000" height="340" rx="16" fill="url(#cyberGrid)" class="grid-bg" />
+
+  <!-- Corner Tech HUD Accents -->
+  <!-- Top-Left Corner (Crimson Red) -->
+  <path d="M 20 55 L 20 20 L 55 20" fill="none" stroke="#FF1E56" stroke-width="3.5" stroke-linecap="round" filter="url(#glowRed)"/>
+  <circle cx="20" cy="20" r="3.5" fill="#FF1E56" />
+
+  <!-- Top-Right Corner (Electric Blue) -->
+  <path d="M 945 20 L 980 20 L 980 55" fill="none" stroke="#00D2FC" stroke-width="3.5" stroke-linecap="round" filter="url(#glowBlue)"/>
+  <circle cx="980" cy="20" r="3.5" fill="#00D2FC" />
+
+  <!-- Bottom-Left Corner (Electric Blue) -->
+  <path d="M 20 285 L 20 320 L 55 320" fill="none" stroke="#0066FF" stroke-width="3.5" stroke-linecap="round" filter="url(#glowBlue)"/>
+  <circle cx="20" cy="320" r="3.5" fill="#0066FF" />
+
+  <!-- Bottom-Right Corner (Crimson Red) -->
+  <path d="M 945 320 L 980 320 L 980 285" fill="none" stroke="#FF1E56" stroke-width="3.5" stroke-linecap="round" filter="url(#glowRed)"/>
+  <circle cx="980" cy="320" r="3.5" fill="#FF1E56" />
+
+  <!-- Moving Laser Perimeter Trails -->
+  <rect x="15" y="15" width="970" height="310" rx="12" fill="none" stroke="url(#neonDual)" stroke-width="1.8" opacity="0.3"/>
+  <rect x="15" y="15" width="970" height="310" rx="12" fill="none" stroke="#FF1E56" stroke-width="2.5" class="laser-trace" filter="url(#glowRed)"/>
+  <rect x="15" y="15" width="970" height="310" rx="12" fill="none" stroke="#00D2FC" stroke-width="2.5" class="laser-trace-rev" filter="url(#glowBlue)"/>
+
+  <!-- Equalizer Visualizer Left -->
+  <g transform="translate(60, 130)" filter="url(#glowRed)">
+    <rect x="0" y="10" width="3.5" height="15" fill="#FF1E56" rx="1.5" class="eq-bar-1"/>
+    <rect x="7" y="5" width="3.5" height="20" fill="#FF0055" rx="1.5" class="eq-bar-2"/>
+    <rect x="14" y="0" width="3.5" height="25" fill="#FF3366" rx="1.5" class="eq-bar-3"/>
+    <rect x="21" y="8" width="3.5" height="18" fill="#FF1E56" rx="1.5" class="eq-bar-4"/>
+  </g>
+
+  <!-- Equalizer Visualizer Right -->
+  <g transform="translate(915, 130)" filter="url(#glowBlue)">
+    <rect x="0" y="8" width="3.5" height="18" fill="#0066FF" rx="1.5" class="eq-bar-4"/>
+    <rect x="7" y="0" width="3.5" height="25" fill="#00D2FC" rx="1.5" class="eq-bar-3"/>
+    <rect x="14" y="5" width="3.5" height="20" fill="#38BDF8" rx="1.5" class="eq-bar-2"/>
+    <rect x="21" y="10" width="3.5" height="15" fill="#0066FF" rx="1.5" class="eq-bar-1"/>
+  </g>
+
+  <!-- Glowing Stars / Sparkles -->
+  <circle cx="120" cy="80" r="2.5" fill="#00D2FC" class="star-1" filter="url(#glowBlue)"/>
+  <circle cx="870" cy="90" r="2.5" fill="#FF1E56" class="star-2" filter="url(#glowRed)"/>
+  <circle cx="180" cy="250" r="2.5" fill="#FF3366" class="star-3" filter="url(#glowRed)"/>
+  <circle cx="820" cy="240" r="2.5" fill="#38BDF8" class="star-4" filter="url(#glowBlue)"/>
+  <circle cx="480" cy="50" r="1.8" fill="#A855F7" class="star-1" />
+  <circle cx="530" cy="280" r="1.8" fill="#00D2FC" class="star-3" />
+
+  <!-- Sweeping Holographic Scanline -->
+  <line x1="20" y1="0" x2="980" y2="0" stroke="url(#neonDual)" stroke-width="1.8" class="scan-bar" opacity="0.4" />
+
+  <!-- Central Header Content -->
+  <!-- Top System Badge -->
+  <g transform="translate(500, 52)">
+    <rect x="-160" y="-14" width="320" height="28" rx="14" fill="#0B1124" stroke="url(#neonDual)" stroke-width="1.2" />
+    <circle cx="-136" cy="0" r="4" fill="#FF1E56">
+      <animate attributeName="opacity" values="1;0.2;1" dur="1.8s" repeatCount="indefinite" />
+    </circle>
+    <text x="-120" y="4" fill="#CBD5E1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', monospace" font-size="11" font-weight="700" letter-spacing="2">CORE ARCHITECT // SYSTEM ONLINE</text>
+    <circle cx="136" cy="0" r="4" fill="#00D2FC">
+      <animate attributeName="opacity" values="0.2;1;0.2" dur="1.8s" repeatCount="indefinite" />
+    </circle>
+  </g>
+
+  <!-- Big Name Title -->
+  <text x="500" y="132" text-anchor="middle" fill="url(#neonDual)" font-size="48" class="title-glow">MOKSHYAGNA YADAV</text>
+
+  <!-- Subtitle with Dual Accent Emojis -->
+  <text x="500" y="174" text-anchor="middle" fill="#E2E8F0" font-size="16.5" class="sub-text">
+    <tspan fill="#FF1E56">◈</tspan> FULL-STACK ARCHITECT  <tspan fill="#38BDF8">|</tspan>  TYPESCRIPT &amp; REACT  <tspan fill="#38BDF8">|</tspan>  APPLIED AI &amp; LINUX <tspan fill="#0066FF">◈</tspan>
+  </text>
+
+  <!-- Horizontal Tech Divider -->
+  <g transform="translate(500, 206)">
+    <line x1="-320" y1="0" x2="-25" y2="0" stroke="url(#redGlow)" stroke-width="1.6"/>
+    <polygon points="0,-6 6,0 0,6 -6,0" fill="#A855F7" filter="url(#glowSubtle)"/>
+    <line x1="25" y1="0" x2="320" y2="0" stroke="url(#blueGlow)" stroke-width="1.6"/>
+  </g>
+
+  <!-- Interactive Feature Badges / Pills -->
+  <!-- Chip 1: Full-Stack (Crimson Red Aura) -->
+  <g transform="translate(140, 246)">
+    <rect x="0" y="0" width="165" height="38" rx="8" fill="#080E1E" stroke="#FF1E56" stroke-width="1.3" class="tag-box"/>
+    <text x="82" y="24" text-anchor="middle" fill="#F87171" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="12" font-weight="700" letter-spacing="1">⚡ FULL-STACK</text>
+  </g>
+
+  <!-- Chip 2: TypeScript & React (Electric Blue Aura) -->
+  <g transform="translate(330, 246)">
+    <rect x="0" y="0" width="165" height="38" rx="8" fill="#080E1E" stroke="#00D2FC" stroke-width="1.3" class="tag-box"/>
+    <text x="82" y="24" text-anchor="middle" fill="#38BDF8" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="12" font-weight="700" letter-spacing="1">🔷 REACT &amp; TS</text>
+  </g>
+
+  <!-- Chip 3: AI & Machine Learning (Purple/Violet Aura) -->
+  <g transform="translate(520, 246)">
+    <rect x="0" y="0" width="165" height="38" rx="8" fill="#080E1E" stroke="#A855F7" stroke-width="1.3" class="tag-box"/>
+    <text x="82" y="24" text-anchor="middle" fill="#C084FC" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="12" font-weight="700" letter-spacing="1">🤖 AI &amp; ML</text>
+  </g>
+
+  <!-- Chip 4: Linux Power User (Cobalt Blue Aura) -->
+  <g transform="translate(710, 246)">
+    <rect x="0" y="0" width="165" height="38" rx="8" fill="#080E1E" stroke="#0066FF" stroke-width="1.3" class="tag-box"/>
+    <text x="82" y="24" text-anchor="middle" fill="#60A5FA" font-family="-apple-system, BlinkMacSystemFont, monospace" font-size="12" font-weight="700" letter-spacing="1">🐧 LINUX HACKER</text>
+  </g>
+
+</svg>

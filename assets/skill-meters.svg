@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 260" width="100%" height="100%">
+  <defs>
+    <linearGradient id="barGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF1E56"/>
+      <stop offset="100%" stop-color="#0066FF"/>
+    </linearGradient>
+    <linearGradient id="barGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0066FF"/>
+      <stop offset="100%" stop-color="#00D2FC"/>
+    </linearGradient>
+    <linearGradient id="barGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF1E56"/>
+      <stop offset="100%" stop-color="#A855F7"/>
+    </linearGradient>
+    <linearGradient id="cardBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080C16"/>
+      <stop offset="100%" stop-color="#04060B"/>
+    </linearGradient>
+    <filter id="barGlow" x="-5%" y="-30%" width="110%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes loadBar1 { 0% { width: 0; } 100% { width: 591px; } }
+    @keyframes loadBar2 { 0% { width: 0; } 100% { width: 161px; } }
+    @keyframes loadBar3 { 0% { width: 0; } 100% { width: 31px; } }
+    @keyframes loadBar4 { 0% { width: 0; } 100% { width: 30px; } }
+    @keyframes loadBar5 { 0% { width: 0; } 100% { width: 30px; } }
+    @keyframes pulseLive { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    .bar-track { fill: #111728; rx: 5; }
+    .bar-fill {
+      rx: 5;
+      animation-duration: 2.2s;
+      animation-timing-function: cubic-bezier(0.1, 0.8, 0.2, 1);
+      animation-fill-mode: forwards;
+      filter: url(#barGlow);
+    }
+    .fill-1 { animation-name: loadBar1; }
+    .fill-2 { animation-name: loadBar2; }
+    .fill-3 { animation-name: loadBar3; }
+    .fill-4 { animation-name: loadBar4; }
+    .fill-5 { animation-name: loadBar5; }
+    .label {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .percentage {
+      font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .tier-badge {
+      font-family: 'Fira Code', monospace;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .live-dot { animation: pulseLive 1.8s infinite; }
+  </style>
+
+  <!-- Card Background with Dual Border -->
+  <rect x="2" y="2" width="846" height="256" rx="12" fill="url(#cardBg)" stroke="#1E293B" stroke-width="1.5"/>
+  <rect x="2" y="2" width="846" height="256" rx="12" fill="none" stroke="url(#barGrad1)" stroke-width="1.2" opacity="0.45"/>
+
+  <!-- Title Badge & Live Telemetry -->
+  <circle cx="30" cy="28" r="4" fill="#FF1E56" class="live-dot"/>
+  <text x="44" y="32" fill="#94A3B8" class="label" font-size="11" letter-spacing="2">PROJECT ECOSYSTEM // REPOSITORY TELEMETRY (DYNAMICALLY DERIVED)</text>
+  <text x="815" y="32" text-anchor="end" fill="#00D2FC" class="tier-badge">[SYNC: REAL-TIME]</text>
+
+  <!-- Metric 1: TypeScript -->
+  <g transform="translate(30, 52)">
+    <text x="0" y="14" fill="#E2E8F0" class="label">⚡ TypeScript (Primary Architecture &amp; Scalable Web Apps)</text>
+    <text x="715" y="14" text-anchor="end" fill="#38BDF8" class="tier-badge">[L9 ARCHITECT]</text>
+    <text x="790" y="14" text-anchor="end" fill="#3178C6" class="percentage">74.8%</text>
+    <rect x="0" y="22" width="790" height="9" class="bar-track"/>
+    <rect x="0" y="22" height="9" fill="url(#barGrad1)" class="bar-fill fill-1"/>
+  </g>
+
+  <!-- Metric 2: JavaScript -->
+  <g transform="translate(30, 92)">
+    <text x="0" y="14" fill="#E2E8F0" class="label">🛠️ JavaScript &amp; Node.js (Core Runtime &amp; Express APIs)</text>
+    <text x="715" y="14" text-anchor="end" fill="#FBBF24" class="tier-badge">[L8 RUNTIME]</text>
+    <text x="790" y="14" text-anchor="end" fill="#F7DF1E" class="percentage">20.4%</text>
+    <rect x="0" y="22" width="790" height="9" class="bar-track"/>
+    <rect x="0" y="22" height="9" fill="url(#barGrad3)" class="bar-fill fill-2"/>
+  </g>
+
+  <!-- Metric 3: CSS -->
+  <g transform="translate(30, 132)">
+    <text x="0" y="14" fill="#E2E8F0" class="label">🎨 CSS3, Responsive Layouts &amp; Modern Styling</text>
+    <text x="715" y="14" text-anchor="end" fill="#34D399" class="tier-badge">[L6 DESIGN]</text>
+    <text x="790" y="14" text-anchor="end" fill="#38B2AC" class="percentage">4.0%</text>
+    <rect x="0" y="22" width="790" height="9" class="bar-track"/>
+    <rect x="0" y="22" height="9" fill="url(#barGrad2)" class="bar-fill fill-3"/>
+  </g>
+
+  <!-- Metric 4: HTML -->
+  <g transform="translate(30, 172)">
+    <text x="0" y="14" fill="#E2E8F0" class="label">🌐 HTML5 Semantic Structure &amp; Web Standards</text>
+    <text x="715" y="14" text-anchor="end" fill="#F87171" class="tier-badge">[L5 DOM]</text>
+    <text x="790" y="14" text-anchor="end" fill="#E34F26" class="percentage">0.5%</text>
+    <rect x="0" y="22" width="790" height="9" class="bar-track"/>
+    <rect x="0" y="22" height="9" fill="url(#barGrad1)" class="bar-fill fill-4"/>
+  </g>
+
+  <!-- Metric 5: Shell -->
+  <g transform="translate(30, 212)">
+    <text x="0" y="14" fill="#E2E8F0" class="label">🐧 Linux Shell Scripting &amp; Terminal Automation</text>
+    <text x="715" y="14" text-anchor="end" fill="#C084FC" class="tier-badge">[L5 SYSTEM]</text>
+    <text x="790" y="14" text-anchor="end" fill="#A855F7" class="percentage">0.3%</text>
+    <rect x="0" y="22" width="790" height="9" class="bar-track"/>
+    <rect x="0" y="22" height="9" fill="url(#barGrad2)" class="bar-fill fill-5"/>
+  </g>
+
+</svg>

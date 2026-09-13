@@ -1,9 +1,12 @@
-name: Update Projects
+name: Update Projects & Dynamic Skill Telemetry
 
 on:
   schedule:
-    - cron: "0 0 * * *"   # runs daily at midnight UTC
+    - cron: "0 */6 * * *"   # runs every 6 hours automatically
   workflow_dispatch:        # allows manual trigger from GitHub Actions tab
+  push:
+    branches:
+      - main
 
 jobs:
   update-readme:
@@ -15,7 +18,7 @@ jobs:
       - name: Checkout profile repo
         uses: actions/checkout@v4
 
-      - name: Fetch repos and rebuild README projects section
+      - name: Fetch repos, compute languages, and rebuild README & skill-meters.svg
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -51,7 +54,7 @@ jobs:
             );
 
             if (projects.length === 0) {
-              core.warning('No repos found — skipping README update to avoid wiping content.');
+              core.warning('No repos found — skipping update to avoid wiping content.');
               return;
             }
 
@@ -98,7 +101,6 @@ jobs:
               return;
             }
 
-            // Replace everything between (and including) the markers
             readme =
               readme.slice(0, startIdx) +
               newSection +
@@ -107,11 +109,167 @@ jobs:
             fs.writeFileSync('README.md', readme);
             core.info(`✅  Updated README with ${projects.length} projects.`);
 
-      - name: Commit and push if README changed
+            // ── 5. Dynamically calculate language bytes across all published projects ──
+            const langTotals = {};
+            let totalBytes = 0;
+
+            for (const p of projects) {
+              try {
+                const { data: langs } = await github.rest.repos.listLanguages({
+                  owner: 'Sensui-moksha',
+                  repo: p.name,
+                });
+                for (const [lang, bytes] of Object.entries(langs)) {
+                  if (lang.toLowerCase() === 'move') continue; // remove Aptos/Move as requested
+                  langTotals[lang] = (langTotals[lang] || 0) + bytes;
+                  totalBytes += bytes;
+                }
+              } catch (err) {
+                core.warning(`Could not fetch languages for ${p.name}: ${err.message}`);
+              }
+            }
+
+            const sortedLangs = Object.entries(langTotals)
+              .sort((a, b) => b[1] - a[1])
+              .slice(0, 5);
+
+            const LANG_CONFIG = {
+              TypeScript: { label: 'TypeScript (Primary Architecture &amp; Distributed Apps)', color: '#3178C6', grad: 'barGrad1', icon: '⚡' },
+              JavaScript: { label: 'JavaScript &amp; Node.js (Runtime, APIs &amp; Express Services)', color: '#F7DF1E', grad: 'barGrad3', icon: '🛠️' },
+              CSS:        { label: 'CSS3, UI Styling &amp; Responsive Frameworks', color: '#38B2AC', grad: 'barGrad2', icon: '🎨' },
+              HTML:       { label: 'HTML5 Semantic Structure &amp; Web Components', color: '#E34F26', grad: 'barGrad1', icon: '🌐' },
+              Shell:      { label: 'Linux Shell Scripting &amp; Terminal Automation', color: '#A855F7', grad: 'barGrad2', icon: '🐧' },
+              Python:     { label: 'Python Automation, Data Structures &amp; Pipelines', color: '#3776AB', grad: 'barGrad1', icon: '🐍' },
+              Java:       { label: 'Java Object-Oriented Engineering', color: '#ED8B00', grad: 'barGrad3', icon: '☕' },
+              C:          { label: 'C Low-Level Programming &amp; Systems', color: '#A8B9CC', grad: 'barGrad2', icon: '⚙️' },
+            };
+
+            const TIER_MAP = {
+              TypeScript: '[L9 ARCHITECT]',
+              JavaScript: '[L8 RUNTIME]',
+              CSS:        '[L6 DESIGN]',
+              HTML:       '[L5 DOM]',
+              Shell:      '[L5 SYSTEM]',
+              Python:     '[L7 PIPELINE]',
+              Java:       '[L6 CORE]',
+              C:          '[L6 SYSTEM]',
+            };
+
+            const topItems = sortedLangs.map(([lang, bytes], i) => {
+              const pctNum = totalBytes > 0 ? (bytes / totalBytes) * 100 : 0;
+              const pctStr = pctNum.toFixed(1) + '%';
+              const widthPx = Math.max(30, Math.round((pctNum / 100) * 790));
+              const cfg = LANG_CONFIG[lang] || { label: `${lang} Engineering`, color: '#00D2FC', grad: 'barGrad1', icon: '🔹' };
+              const tier = TIER_MAP[lang] || '[CORE DEV]';
+              return {
+                lang,
+                bytes,
+                pctStr,
+                widthPx,
+                label: `${cfg.icon} ${cfg.label}`,
+                color: cfg.color,
+                grad: cfg.grad,
+                tier,
+                idx: i + 1,
+              };
+            });
+
+            // ── 6. Dynamically generate and write assets/skill-meters.svg ─────────
+            if (!fs.existsSync('assets')) {
+              fs.mkdirSync('assets', { recursive: true });
+            }
+
+            const keyframes = topItems.map(item =>
+              `    @keyframes loadBar${item.idx} { 0% { width: 0; } 100% { width: ${item.widthPx}px; } }`
+            ).join('\n');
+
+            const cssClasses = topItems.map(item =>
+              `    .fill-${item.idx} { animation-name: loadBar${item.idx}; }`
+            ).join('\n');
+
+            const metricGroups = topItems.map((item, idx) => {
+              const yOffset = 52 + idx * 40;
+              return `  <!-- Metric ${item.idx}: ${item.lang} -->\n  <g transform="translate(30, ${yOffset})">\n    <text x="0" y="14" fill="#E2E8F0" class="label">${item.label}</text>\n    <text x="715" y="14" text-anchor="end" fill="${item.color}" class="tier-badge">${item.tier}</text>\n    <text x="790" y="14" text-anchor="end" fill="${item.color}" class="percentage">${item.pctStr}</text>\n    <rect x="0" y="22" width="790" height="9" class="bar-track"/>\n    <rect x="0" y="22" height="9" fill="url(#${item.grad})" class="bar-fill fill-${item.idx}"/>\n  </g>`;
+            }).join('\n\n');
+
+            const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 260" width="100%" height="100%">
+  <defs>
+    <linearGradient id="barGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF1E56"/>
+      <stop offset="100%" stop-color="#0066FF"/>
+    </linearGradient>
+    <linearGradient id="barGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0066FF"/>
+      <stop offset="100%" stop-color="#00D2FC"/>
+    </linearGradient>
+    <linearGradient id="barGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF1E56"/>
+      <stop offset="100%" stop-color="#A855F7"/>
+    </linearGradient>
+    <linearGradient id="cardBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080C16"/>
+      <stop offset="100%" stop-color="#04060B"/>
+    </linearGradient>
+    <filter id="barGlow" x="-5%" y="-30%" width="110%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <style>
+${keyframes}
+    @keyframes pulseLive { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .bar-track { fill: #111728; rx: 5; }
+    .bar-fill {
+      rx: 5;
+      animation-duration: 2.2s;
+      animation-timing-function: cubic-bezier(0.1, 0.8, 0.2, 1);
+      animation-fill-mode: forwards;
+      filter: url(#barGlow);
+    }
+${cssClasses}
+    .label {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .percentage {
+      font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .tier-badge {
+      font-family: 'Fira Code', monospace;
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .live-dot { animation: pulseLive 1.8s infinite; }
+  </style>
+
+  <!-- Card Background with Dual Border -->
+  <rect x="2" y="2" width="846" height="256" rx="12" fill="url(#cardBg)" stroke="#1E293B" stroke-width="1.5"/>
+  <rect x="2" y="2" width="846" height="256" rx="12" fill="none" stroke="url(#barGrad1)" stroke-width="1.2" opacity="0.45"/>
+
+  <!-- Title Badge & Live Telemetry -->
+  <circle cx="30" cy="28" r="4" fill="#FF1E56" class="live-dot"/>
+  <text x="44" y="32" fill="#94A3B8" class="label" font-size="11" letter-spacing="2">PROJECT ECOSYSTEM // REPOSITORY TELEMETRY (DYNAMICALLY DERIVED)</text>
+  <text x="815" y="32" text-anchor="end" fill="#00D2FC" class="tier-badge">[SYNC: REAL-TIME]</text>
+
+${metricGroups}
+
+</svg>`;
+
+            fs.writeFileSync('assets/skill-meters.svg', svgContent);
+            core.info(`✅  Dynamically regenerated assets/skill-meters.svg with ${topItems.length} live project languages.`);
+
+      - name: Commit and push if README or assets changed
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name  "github-actions[bot]"
-          git add README.md
+          git add README.md assets/
           # Only commit when there is an actual diff
           git diff --staged --quiet && echo "No changes to commit." || \
-            git commit -m "chore: sync projects table [skip ci]" && git push
+            git commit -m "chore: sync projects and dynamic skill telemetry [skip ci]" && git push

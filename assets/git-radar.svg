@@ -1,0 +1,173 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 290" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="radarBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#070B16"/>
+      <stop offset="50%" stop-color="#050812"/>
+      <stop offset="100%" stop-color="#020408"/>
+    </linearGradient>
+
+    <!-- Dual Radar Border Gradient -->
+    <linearGradient id="radarBorder" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF1E56"/>
+      <stop offset="50%" stop-color="#7928CA"/>
+      <stop offset="100%" stop-color="#0066FF"/>
+    </linearGradient>
+
+    <!-- Radar Sweep Gradient -->
+    <linearGradient id="sweepGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF1E56" stop-opacity="0.85"/>
+      <stop offset="50%" stop-color="#00D2FC" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#0066FF" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Waveform Glow -->
+    <filter id="radarGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <filter id="dotGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes radarSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes blipPulse {
+      0%, 100% { opacity: 0.25; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.35); }
+    }
+    @keyframes waveTravel {
+      0% { stroke-dashoffset: 600; }
+      100% { stroke-dashoffset: 0; }
+    }
+    @keyframes textBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+
+    .radar-sweep {
+      transform-origin: 135px 150px;
+      animation: radarSpin 4.5s linear infinite;
+    }
+    .blip-1 { animation: blipPulse 2.2s ease-in-out infinite; transform-origin: 165px 110px; }
+    .blip-2 { animation: blipPulse 3.1s ease-in-out infinite 0.8s; transform-origin: 100px 175px; }
+    .blip-3 { animation: blipPulse 2.6s ease-in-out infinite 1.4s; transform-origin: 185px 170px; }
+    .wave-line {
+      stroke-dasharray: 60, 150;
+      animation: waveTravel 4s linear infinite;
+    }
+    .live-dot { animation: textBlink 1.2s infinite; }
+    .hud-title {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+    .hud-text {
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 12px;
+    }
+  </style>
+
+  <!-- Base Panel -->
+  <rect x="2" y="2" width="916" height="286" rx="12" fill="url(#radarBg)" stroke="url(#radarBorder)" stroke-width="1.8" filter="url(#radarGlow)"/>
+
+  <!-- Top Header Strip -->
+  <path d="M 2 12 Q 2 2 12 2 L 908 2 Q 918 2 918 12 L 918 36 L 2 36 Z" fill="#0C1222" stroke="none"/>
+  <line x1="2" y1="36" x2="918" y2="36" stroke="#1E293B" stroke-width="1"/>
+
+  <circle cx="20" cy="19" r="4.5" fill="#FF1E56" class="live-dot"/>
+  <text x="34" y="23" fill="#F8FAFC" class="hud-title" font-size="11">COMMIT TELEMETRY RADAR // CODE CADENCE &amp; VELOCITY</text>
+  <text x="730" y="23" fill="#94A3B8" class="hud-text" font-size="10.5">GEO: 16.50°N 80.64°E</text>
+  <text x="895" y="23" text-anchor="end" fill="#00D2FC" class="hud-title" font-size="11">ONLINE [24/7]</text>
+
+  <!-- ================= LEFT: RADAR CONDUIT ================= -->
+  <!-- Compass Cardinal Markers -->
+  <text x="135" y="48" text-anchor="middle" fill="#64748B" class="hud-text" font-size="9" font-weight="700">000° N</text>
+  <text x="135" y="260" text-anchor="middle" fill="#64748B" class="hud-text" font-size="9" font-weight="700">180° S</text>
+  <text x="32" y="153" text-anchor="middle" fill="#64748B" class="hud-text" font-size="9" font-weight="700">270° W</text>
+  <text x="238" y="153" text-anchor="middle" fill="#64748B" class="hud-text" font-size="9" font-weight="700">090° E</text>
+
+  <!-- Concentric Radar Rings -->
+  <circle cx="135" cy="150" r="95" fill="#060913" stroke="#1E293B" stroke-width="1.2"/>
+  <circle cx="135" cy="150" r="70" fill="none" stroke="#1E3A8A" stroke-width="1" stroke-dasharray="4,4"/>
+  <circle cx="135" cy="150" r="45" fill="none" stroke="#FF1E56" stroke-width="0.8" opacity="0.45"/>
+  <circle cx="135" cy="150" r="20" fill="none" stroke="#00D2FC" stroke-width="1"/>
+
+  <!-- Crosshairs -->
+  <line x1="40" y1="150" x2="230" y2="150" stroke="#1E293B" stroke-width="1"/>
+  <line x1="135" y1="55" x2="135" y2="245" stroke="#1E293B" stroke-width="1"/>
+
+  <!-- Rotating Scanner Beam -->
+  <g class="radar-sweep">
+    <path d="M 135 150 L 135 55 A 95 95 0 0 1 230 150 Z" fill="url(#sweepGrad)" opacity="0.55"/>
+    <line x1="135" y1="150" x2="135" y2="55" stroke="#00D2FC" stroke-width="1.8" filter="url(#dotGlow)"/>
+  </g>
+
+  <!-- Radar Target Blips (Commits Detected) -->
+  <circle cx="165" cy="110" r="4" fill="#FF1E56" class="blip-1" filter="url(#dotGlow)"/>
+  <circle cx="100" cy="175" r="3.5" fill="#00D2FC" class="blip-2" filter="url(#dotGlow)"/>
+  <circle cx="185" cy="170" r="4" fill="#38BDF8" class="blip-3" filter="url(#dotGlow)"/>
+  <circle cx="135" cy="150" r="3" fill="#FFFFFF"/>
+
+  <!-- ================= RIGHT: TELEMETRY METRICS ================= -->
+
+  <!-- Live Pulse Waveform (Code Activity Frequency) -->
+  <g transform="translate(265, 58)">
+    <rect x="0" y="0" width="630" height="42" rx="8" fill="#090E1B" stroke="#1E293B" stroke-width="1"/>
+    <text x="14" y="26" fill="#94A3B8" class="hud-text" font-weight="700">CODE ACTIVITY WAVEFORM</text>
+    <!-- Background Grid Line -->
+    <path d="M 230 21 L 280 21 L 290 8 L 305 34 L 320 12 L 335 28 L 345 21 L 430 21 L 440 6 L 455 35 L 470 14 L 485 28 L 495 21 L 615 21" fill="none" stroke="#1E293B" stroke-width="1.5"/>
+    <!-- Animated Glowing Waveform -->
+    <path d="M 230 21 L 280 21 L 290 8 L 305 34 L 320 12 L 335 28 L 345 21 L 430 21 L 440 6 L 455 35 L 470 14 L 485 28 L 495 21 L 615 21" fill="none" stroke="#FF1E56" stroke-width="2" class="wave-line" filter="url(#dotGlow)"/>
+  </g>
+
+  <!-- Telemetry Data Cards (Grid 2x2) -->
+  <!-- Card 1: Commit Velocity -->
+  <g transform="translate(265, 114)">
+    <rect x="0" y="0" width="306" height="72" rx="8" fill="#090E1B" stroke="#FF1E56" stroke-width="1.2"/>
+    <circle cx="16" cy="18" r="3.5" fill="#FF1E56"/>
+    <text x="26" y="22" fill="#F87171" class="hud-text" font-weight="700">DEVELOPMENT CADENCE</text>
+    <text x="16" y="44" fill="#F8FAFC" class="hud-text" font-size="13" font-weight="700">⚡ High Ship Velocity</text>
+    <text x="16" y="60" fill="#94A3B8" class="hud-text" font-size="10.5">Continuous Git push &amp; integration</text>
+  </g>
+
+  <!-- Card 2: Peak Productivity Window -->
+  <g transform="translate(589, 114)">
+    <rect x="0" y="0" width="306" height="72" rx="8" fill="#090E1B" stroke="#00D2FC" stroke-width="1.2"/>
+    <circle cx="16" cy="18" r="3.5" fill="#00D2FC"/>
+    <text x="26" y="22" fill="#38BDF8" class="hud-text" font-weight="700">OPERATING WINDOW</text>
+    <text x="16" y="44" fill="#F8FAFC" class="hud-text" font-size="13" font-weight="700">🌙 Deep Focus Protocol</text>
+    <text x="16" y="60" fill="#94A3B8" class="hud-text" font-size="10.5">Flow State: 21:00 - 02:30 IST</text>
+  </g>
+
+  <!-- Card 3: Codebase Purity -->
+  <g transform="translate(265, 196)">
+    <rect x="0" y="0" width="306" height="72" rx="8" fill="#090E1B" stroke="#3B82F6" stroke-width="1.2"/>
+    <circle cx="16" cy="18" r="3.5" fill="#3B82F6"/>
+    <text x="26" y="22" fill="#60A5FA" class="hud-text" font-weight="700">STACK COMPOSITION</text>
+    <text x="16" y="44" fill="#F8FAFC" class="hud-text" font-size="13" font-weight="700">🔷 95% TypeScript &amp; JS</text>
+    <text x="16" y="60" fill="#94A3B8" class="hud-text" font-size="10.5">Strict typed, robust reactive apps</text>
+  </g>
+
+  <!-- Card 4: Ecosystem & Platform -->
+  <g transform="translate(589, 196)">
+    <rect x="0" y="0" width="306" height="72" rx="8" fill="#090E1B" stroke="#A855F7" stroke-width="1.2"/>
+    <circle cx="16" cy="18" r="3.5" fill="#A855F7"/>
+    <text x="26" y="22" fill="#C084FC" class="hud-text" font-weight="700">CORE WORKSTATION</text>
+    <text x="16" y="44" fill="#F8FAFC" class="hud-text" font-size="13" font-weight="700">🐧 Terminal-First / Linux</text>
+    <text x="16" y="60" fill="#94A3B8" class="hud-text" font-size="10.5">Custom Arch/Debian + Neovim setup</text>
+  </g>
+
+</svg>

@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 310" width="100%" height="100%">
+  <defs>
+    <linearGradient id="termBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF1E56"/>
+      <stop offset="50%" stop-color="#7928CA"/>
+      <stop offset="100%" stop-color="#0066FF"/>
+    </linearGradient>
+    <linearGradient id="termBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#090D17"/>
+      <stop offset="100%" stop-color="#04060A"/>
+    </linearGradient>
+    <linearGradient id="statuslineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF1E56"/>
+      <stop offset="18%" stop-color="#FF1E56"/>
+      <stop offset="18%" stop-color="#1E293B"/>
+      <stop offset="82%" stop-color="#1E293B"/>
+      <stop offset="82%" stop-color="#0066FF"/>
+      <stop offset="100%" stop-color="#0066FF"/>
+    </linearGradient>
+    <filter id="termGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    @keyframes lineFade1 { 0% { opacity: 0; } 8% { opacity: 1; } 100% { opacity: 1; } }
+    @keyframes lineFade2 { 0%, 12% { opacity: 0; } 20% { opacity: 1; } 100% { opacity: 1; } }
+    @keyframes lineFade3 { 0%, 25% { opacity: 0; } 35% { opacity: 1; } 100% { opacity: 1; } }
+    @keyframes lineFade4 { 0%, 40% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 1; } }
+    @keyframes lineFade5 { 0%, 55% { opacity: 0; } 65% { opacity: 1; } 100% { opacity: 1; } }
+    @keyframes lineFade6 { 0%, 70% { opacity: 0; } 80% { opacity: 1; } 100% { opacity: 1; } }
+    @keyframes pulseDot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    .cursor { animation: blink 0.9s infinite; }
+    .term-code {
+      font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 13px;
+    }
+    .line-1 { animation: lineFade1 8s infinite; }
+    .line-2 { animation: lineFade2 8s infinite; }
+    .line-3 { animation: lineFade3 8s infinite; }
+    .line-4 { animation: lineFade4 8s infinite; }
+    .line-5 { animation: lineFade5 8s infinite; }
+    .line-6 { animation: lineFade6 8s infinite; }
+    .pulse-green { animation: pulseDot 1.6s ease-in-out infinite; }
+  </style>
+
+  <!-- Terminal Window Base -->
+  <rect x="2" y="2" width="816" height="306" rx="10" fill="url(#termBg)" stroke="url(#termBorder)" stroke-width="1.8" filter="url(#termGlow)"/>
+
+  <!-- Terminal Header Bar -->
+  <path d="M 2 12 Q 2 2 12 2 L 808 2 Q 818 2 818 12 L 818 34 L 2 34 Z" fill="#0C1220" stroke="none"/>
+  <line x1="2" y1="34" x2="818" y2="34" stroke="#1E293B" stroke-width="1"/>
+
+  <!-- Window Action Controls -->
+  <circle cx="20" cy="18" r="5" fill="#FF1E56"/>
+  <circle cx="36" cy="18" r="5" fill="#EAB308"/>
+  <circle cx="52" cy="18" r="5" fill="#00D2FC"/>
+
+  <!-- Terminal Window Title -->
+  <text x="410" y="22" text-anchor="middle" fill="#64748B" font-family="-apple-system, monospace" font-size="11.5" font-weight="600" letter-spacing="1">sensui@moksha-arch: ~ (zsh / neovim-telemetry)</text>
+
+  <!-- Terminal Body Content -->
+  <!-- Line 1: whoami command -->
+  <g class="line-1">
+    <text x="24" y="62" fill="#FF1E56" class="term-code" font-weight="700">sensui@arch</text>
+    <text x="115" y="62" fill="#64748B" class="term-code">:</text>
+    <text x="127" y="62" fill="#00D2FC" class="term-code">~$</text>
+    <text x="150" y="62" fill="#F8FAFC" class="term-code" font-weight="600">whoami</text>
+  </g>
+
+  <!-- Line 2: whoami response -->
+  <g class="line-2">
+    <text x="24" y="86" fill="#38BDF8" class="term-code">↳ Mokshyagna Yadav</text>
+    <text x="175" y="86" fill="#94A3B8" class="term-code">| B.Tech CSE @ MIC College of Tech (Andhra Pradesh, IN 🇮🇳)</text>
+  </g>
+
+  <!-- Line 3: cat core_capabilities.json -->
+  <g class="line-3">
+    <text x="24" y="118" fill="#FF1E56" class="term-code" font-weight="700">sensui@arch</text>
+    <text x="115" y="118" fill="#64748B" class="term-code">:</text>
+    <text x="127" y="118" fill="#00D2FC" class="term-code">~$</text>
+    <text x="150" y="118" fill="#F8FAFC" class="term-code" font-weight="600">cat core_capabilities.json</text>
+  </g>
+
+  <!-- Line 4: JSON Output -->
+  <g class="line-4">
+    <text x="24" y="142" fill="#64748B" class="term-code">{</text>
+    <text x="40" y="142" fill="#F87171" class="term-code">"frontend"</text>
+    <text x="125" y="142" fill="#64748B" class="term-code">:</text>
+    <text x="140" y="142" fill="#38BDF8" class="term-code">"React, Next.js, TypeScript, Tailwind CSS"</text>
+    <text x="495" y="142" fill="#64748B" class="term-code">,</text>
+
+    <text x="40" y="164" fill="#F87171" class="term-code">"backend"</text>
+    <text x="115" y="164" fill="#64748B" class="term-code">:</text>
+    <text x="130" y="164" fill="#C084FC" class="term-code">"Node.js, Express, REST APIs, Python, C"</text>
+    <text x="465" y="164" fill="#64748B" class="term-code">,</text>
+
+    <text x="40" y="186" fill="#F87171" class="term-code">"database"</text>
+    <text x="125" y="186" fill="#64748B" class="term-code">:</text>
+    <text x="140" y="186" fill="#34D399" class="term-code">"MongoDB, Firebase, Cloud Data"</text>
+    <text x="405" y="186" fill="#64748B" class="term-code">,</text>
+
+    <text x="40" y="208" fill="#F87171" class="term-code">"environment"</text>
+    <text x="155" y="208" fill="#64748B" class="term-code">:</text>
+    <text x="170" y="208" fill="#FBBF24" class="term-code">"Linux (Arch &amp; Debian) • Neovim • Git"</text>
+    <text x="24" y="228" fill="#64748B" class="term-code">}</text>
+  </g>
+
+  <!-- Line 5: systemctl status -->
+  <g class="line-5">
+    <text x="24" y="254" fill="#FF1E56" class="term-code" font-weight="700">sensui@arch</text>
+    <text x="115" y="254" fill="#64748B" class="term-code">:</text>
+    <text x="127" y="254" fill="#00D2FC" class="term-code">~$</text>
+    <text x="150" y="254" fill="#F8FAFC" class="term-code" font-weight="600">systemctl status engineering.service</text>
+  </g>
+
+  <!-- Line 6: Active service line -->
+  <g class="line-6">
+    <circle cx="32" cy="275" r="4" fill="#22C55E" class="pulse-green"/>
+    <text x="44" y="279" fill="#22C55E" class="term-code" font-weight="700">● ACTIVE (RUNNING):</text>
+    <text x="195" y="279" fill="#F1F5F9" class="term-code">Shipping modern full-stack web architectures &amp; AI workflows</text>
+    <rect x="740" y="267" width="8" height="15" fill="#00D2FC" class="cursor"/>
+  </g>
+
+  <!-- Bottom Neovim Lualine Bar -->
+  <path d="M 2 292 L 818 292 L 818 300 Q 818 306 808 306 L 12 306 Q 2 306 2 300 Z" fill="#0A0E1A" stroke="none"/>
+  <line x1="2" y1="292" x2="818" y2="292" stroke="#1E293B" stroke-width="1"/>
+  <rect x="2" y="292" width="65" height="16" fill="#FF1E56"/>
+  <text x="34" y="303" text-anchor="middle" fill="#FFFFFF" font-family="'Fira Code', monospace" font-size="9" font-weight="800">NORMAL</text>
+  <text x="78" y="303" fill="#64748B" font-family="'Fira Code', monospace" font-size="9"> main</text>
+  <text x="130" y="303" fill="#00D2FC" font-family="'Fira Code', monospace" font-size="9">profile.ts</text>
+  <text x="690" y="303" fill="#94A3B8" font-family="'Fira Code', monospace" font-size="9">utf-8 [unix]</text>
+  <rect x="760" y="292" width="58" height="16" fill="#0066FF"/>
+  <text x="789" y="303" text-anchor="middle" fill="#FFFFFF" font-family="'Fira Code', monospace" font-size="9" font-weight="800">100%</text>
+
+</svg>
